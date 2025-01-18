@@ -18,3 +18,4 @@ export const EMAIL_CONFIG = {
 };
 
 export const EMAIL_RECIPIENTS = process.env.EMAIL_RECIPIENTS;
+export const TIMING = process.env.TIMING;

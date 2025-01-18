@@ -6,6 +6,7 @@
   "main": "cron.js",
   "scripts": {
     "start": "node cron.js",
+    "grep": "ps aux | grep node",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
