@@ -1,6 +1,6 @@
 import { chromium } from "playwright";
 
-export default async function getCurrentPrice() {
+export async function getGoldApplePrice() {
   console.log("Начинаю поиск цены в Золотом яблоке");
   const browser = await chromium.launch({ headless: true });
   const context = await browser.newContext();

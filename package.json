@@ -2,12 +2,15 @@
   "name": "price-checker",
   "version": "0.0.1",
   "description": "Проверка цен в разных магазинах",
-  "type": "module",
   "main": "cron.js",
+  "type": "commonjs",
   "scripts": {
     "start": "node cron.js",
     "grep": "ps aux | grep node",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start-bot": "node -r tsconfig-paths/register dist/bot.js",
+    "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/bot.ts"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +18,12 @@
     "cron": "^3.5.0",
     "dotenv": "^16.4.7",
     "nodemailer": "^6.9.16",
-    "playwright": "^1.49.1"
+    "playwright": "^1.49.1",
+    "telegraf": "^4.16.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.7",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.7.3"
   }
 }
