@@ -9,7 +9,9 @@ export async function getYandexPrice() {
   });
   const page = await context.newPage();
 
-  await page.goto("https://market.yandex.ru/cc/JkROkmt");
+  await page.goto(
+    "https://market.yandex.ru/product--dercos-aminexil-intensive-5-sredstvo-protiv-vypadeniia-volos-dlia-zhenshchin/1788741060?sku=32589352&uniqueId=892410&do-waremd5=ilyNaBtmzEZx09AHr6wnbw"
+  );
   await page.mouse.move(100, 100);
   await page.waitForTimeout(1000);
   await page.mouse.move(500, 400);
@@ -20,7 +22,7 @@ export async function getYandexPrice() {
   );
   await browser.close();
 
-  console.log("Цена на Яндекс найдена");
+  console.log(`Цена на Яндекс найдена - ${textContent}`);
 
   return textContent;
 }

@@ -22,7 +22,7 @@ export async function getLamodaPrice() {
   );
   await browser.close();
 
-  console.log("Цена на Lamoda найдена");
+  console.log(`Цена на Lamoda найдена - ${textContent}`);
 
   return textContent;
 }

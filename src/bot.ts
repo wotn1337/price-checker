@@ -10,12 +10,10 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
 
 bot.start(async (ctx) => {
   const userId = ctx.from.id;
-
-  // Инициализация состояния пользователя
   userStates[userId] = { isSearching: false };
 
   return ctx.reply(
-    "Добро пожаловать! Управляйте поиском:",
+    "Добро пожаловать!",
     getMenu(userStates[userId].isSearching)
   );
 });

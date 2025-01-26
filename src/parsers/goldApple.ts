@@ -17,7 +17,7 @@ export async function getGoldApplePrice() {
   );
   await browser.close();
 
-  console.log("Цена в Золотом яблоке найдена");
+  console.log(`Цена в Золотом яблоке найдена - ${textContent}`);
 
   return textContent;
 }

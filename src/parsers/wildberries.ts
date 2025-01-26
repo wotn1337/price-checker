@@ -22,7 +22,7 @@ export async function getWbPrice() {
   );
   await browser.close();
 
-  console.log("Цена на Wildberries найдена");
+  console.log(`Цена на Wildberries найдена - ${textContent}`);
 
   return textContent;
 }
