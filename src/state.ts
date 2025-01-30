@@ -1,6 +1,12 @@
 import { CronJob } from "cron";
 
-export const userStates: Record<
-  number,
-  { isSearching: boolean; cronJob?: CronJob }
-> = {};
+type UserData = {
+  isSearching: boolean;
+  cronJob?: CronJob;
+  time?: {
+    hours: number;
+    minutes: number;
+  };
+};
+
+export const userStates: Record<number, UserData> = {};
