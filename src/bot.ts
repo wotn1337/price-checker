@@ -21,9 +21,10 @@ bot.hears(Option.START_SEARCH, startSearchCallback);
 
 bot.hears(Option.STOP_SEARCH, stopSearchCallback);
 
-bot.launch().then(async () => {
-  startParserJob();
+startParserJob();
 
+bot.launch().then(async () => {
+  console.log("Бот запущен");
   const tasks = await getStartedTasks();
 
   for (const task of tasks) {
@@ -35,4 +36,6 @@ bot.launch().then(async () => {
     const job = startJob(searchTask, process.env.TIMING);
     cronJobs[task.user_id] = job;
   }
+
+  console.log("Задачи запущены", cronJobs);
 });

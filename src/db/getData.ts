@@ -21,10 +21,10 @@ export const getStartedTasks = async () => {
       .where({ is_active: true })
       .returning("*");
 
-    console.log("Задачи пользователя:", task);
+    console.log("Все начатые задачи:", task);
     return task;
   } catch (err) {
-    console.error("Ошибка получения данных:", err);
+    console.error("Ошибка получения начатых задач:", err);
     return [];
   }
 };

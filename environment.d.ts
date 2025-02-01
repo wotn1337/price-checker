@@ -9,5 +9,6 @@ declare namespace NodeJS {
     DATABASE_USERNAME: string;
     DATABASE_PASSWORD: string;
     DATABASE_SSL: string;
+    PARSER_TIMING: string;
   }
 }
