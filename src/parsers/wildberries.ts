@@ -6,7 +6,7 @@ const url =
 export async function getWbPrice() {
   try {
     console.log("Начинаю поиск цены на Wildberries");
-    const browser = await chromium.launch({ headless: false });
+    const browser = await chromium.launch({ headless: true });
     const context = await browser.newContext({
       userAgent:
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",

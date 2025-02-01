@@ -5,7 +5,7 @@ const url = "https://goldapple.ru/89310800015-dercos-aminexil-intensive-5";
 export async function getGoldApplePrice() {
   try {
     console.log("Начинаю поиск цены в Золотом яблоке");
-    const browser = await chromium.launch({ headless: false });
+    const browser = await chromium.launch({ headless: true });
     const context = await browser.newContext();
     const page = await context.newPage();
 
