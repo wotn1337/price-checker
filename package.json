@@ -9,7 +9,7 @@
     "grep": "ps aux | grep node",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "start-bot": "node dist/bot.js",
+    "start-bot": "node dist/bot.js >> bot.log 2>&1",
     "dev": "ts-node-dev --respawn --transpile-only src/bot.ts",
     "create-db": "ts-node src/db/init.ts"
   },

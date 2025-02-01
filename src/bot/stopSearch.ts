@@ -1,13 +1,10 @@
-import { Update } from "@telegraf/types";
-import { Composer, Context } from "telegraf";
 import { getUserTask } from "../db/getData";
 import { updateTask } from "../db/updateData";
+import { OnHearCallback } from "../types";
 import { stopJob } from "../utils/cron";
 import { getMenu } from "../utils/getMenu";
 
-type FuncType = Parameters<Composer<Context<Update>>["hears"]>[1];
-
-export const stopSearchCallback: FuncType = async (ctx) => {
+export const stopSearchCallback: OnHearCallback = async (ctx) => {
   const userId = ctx.from.id;
 
   let task = await getUserTask(userId);

@@ -3,6 +3,11 @@ import { getLamodaPrice } from "../parsers/lamoda";
 import { getWbPrice } from "../parsers/wildberries";
 import { getYandexPrice } from "../parsers/yandex";
 
+type ShopItem = {
+  shop: string;
+  price?: string;
+};
+
 export async function getMessage() {
   try {
     const ga = await getGoldApplePrice();
@@ -11,8 +16,24 @@ export async function getMessage() {
     const yandex = await getYandexPrice();
     const ozon = "https://ozon.ru/t/M2yPv5x";
 
-    return `Золотое яблоко: ${ga}\nWildberries: ${wb}\nLamoda: ${lamoda}\nЯндекс: ${yandex}\nOzon: ${ozon}`;
+    const items: ShopItem[] = [
+      { shop: "Золотое яблоко", price: ga },
+      { shop: "Wildberries", price: wb },
+      { shop: "Lamoda", price: lamoda },
+      { shop: "Яндекс", price: yandex },
+      { shop: "Ozon", price: ozon },
+    ];
+
+    return items.map(getPriceString).join("\n");
   } catch {
     return "Ошибка поиска цен";
   }
+}
+
+function getPriceString({ shop, price }: ShopItem) {
+  if (price === undefined) {
+    return "";
+  }
+
+  return `${shop}: ${price}`;
 }

@@ -1,12 +1,14 @@
 import dotenv from "dotenv";
-import { Telegraf } from "telegraf";
+import { Telegraf, session } from "telegraf";
 import { startBotCallback } from "./bot/start";
 import { startSearchCallback } from "./bot/startSearch";
 import { stopSearchCallback } from "./bot/stopSearch";
 import { Option } from "./const";
+import { IContext } from "./types";
 dotenv.config();
 
-const bot = new Telegraf(process.env.BOT_TOKEN);
+const bot = new Telegraf<IContext>(process.env.BOT_TOKEN);
+bot.use(session());
 
 bot.start(startBotCallback);
 
