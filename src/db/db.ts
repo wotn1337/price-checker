@@ -1,9 +1,6 @@
-import { CronJob } from "cron";
 import dotenv from "dotenv";
 import knex, { Knex } from "knex";
 dotenv.config();
-
-export const cronJobs: Record<number, CronJob> = {};
 
 export const db: Knex = knex({
   client: "pg",

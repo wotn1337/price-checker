@@ -1,14 +1,12 @@
-import { Update } from "@telegraf/types";
-import { Composer, Context } from "telegraf";
+import { startJob } from "../cron/start";
+import { cronJobs } from "../cron/state";
 import { getUserTask } from "../db/getData";
 import { createTask } from "../db/insertData";
-import { startJob } from "../utils/cron";
-import { getMenu } from "../utils/getMenu";
-import { getMessage } from "../utils/search";
+import { getMessageFromFile } from "../parsers/message";
+import { OnStartCallback } from "../types";
+import { getMenu } from "./getMenu";
 
-export const startBotCallback: Parameters<
-  Composer<Context<Update>>["start"]
->[0] = async (ctx) => {
+export const startBotCallback: OnStartCallback = async (ctx) => {
   const userId = ctx.from?.id;
 
   let task = await getUserTask(userId);
@@ -19,12 +17,13 @@ export const startBotCallback: Parameters<
   }
 
   if (task.is_active) {
-    const searchTask = async () => {
-      const message = await getMessage();
+    const searchTask = () => {
+      const message = getMessageFromFile();
       ctx.reply(message);
     };
 
-    startJob(searchTask, userId);
+    const job = startJob(searchTask, process.env.TIMING);
+    cronJobs[userId] = job;
 
     ctx.reply("Поиск цен возобновлен", getMenu(true));
     return;

@@ -1,18 +1,19 @@
 import { chromium } from "playwright";
 
+const url =
+  "https://www.wildberries.ru/catalog/3518597/detail.aspx?targetUrl=MS&size=13525664";
+
 export async function getWbPrice() {
   try {
     console.log("Начинаю поиск цены на Wildberries");
-    const browser = await chromium.launch({ headless: true });
+    const browser = await chromium.launch({ headless: false });
     const context = await browser.newContext({
       userAgent:
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
     });
     const page = await context.newPage();
 
-    await page.goto(
-      "https://www.wildberries.ru/catalog/3518597/detail.aspx?targetUrl=MS&size=13525664"
-    );
+    await page.goto(url);
     await page.mouse.move(100, 100);
     await page.waitForTimeout(1000);
     await page.mouse.move(500, 400);
@@ -28,5 +29,6 @@ export async function getWbPrice() {
     return textContent;
   } catch (e) {
     console.error(e);
+    return url;
   }
 }

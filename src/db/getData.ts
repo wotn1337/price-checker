@@ -14,3 +14,17 @@ export const getUserTask = async (user_id: UserTask["user_id"]) => {
     console.error("Ошибка получения данных:", err);
   }
 };
+
+export const getStartedTasks = async () => {
+  try {
+    const task = await db<UserTask>(TABLE_NAME)
+      .where({ is_active: true })
+      .returning("*");
+
+    console.log("Задачи пользователя:", task);
+    return task;
+  } catch (err) {
+    console.error("Ошибка получения данных:", err);
+    return [];
+  }
+};

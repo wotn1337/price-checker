@@ -1,9 +1,10 @@
+import { startJob } from "../cron/start";
+import { cronJobs } from "../cron/state";
 import { getUserTask } from "../db/getData";
 import { updateTask } from "../db/updateData";
+import { getMessageFromFile } from "../parsers/message";
 import { OnHearCallback } from "../types";
-import { startJob } from "../utils/cron";
-import { getMenu } from "../utils/getMenu";
-import { getMessage } from "../utils/search";
+import { getMenu } from "./getMenu";
 
 export const startSearchCallback: OnHearCallback = async (ctx) => {
   const userId = ctx.from.id;
@@ -21,13 +22,14 @@ export const startSearchCallback: OnHearCallback = async (ctx) => {
     return;
   }
 
-  const searchTask = async () => {
-    const message = await getMessage();
+  const searchTask = () => {
+    const message = getMessageFromFile();
     ctx.reply(message);
   };
 
-  startJob(searchTask, userId);
+  const job = startJob(searchTask, process.env.TIMING);
+  cronJobs[userId] = job;
 
-  const updatedTask = await updateTask(task.id, { is_active: true });
+  await updateTask(task.id, { is_active: true });
   ctx.reply("Поиск цен запущен", getMenu(true));
 };

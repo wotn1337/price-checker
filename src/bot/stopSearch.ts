@@ -1,8 +1,8 @@
+import { stopJob } from "../cron/stop";
 import { getUserTask } from "../db/getData";
 import { updateTask } from "../db/updateData";
 import { OnHearCallback } from "../types";
-import { stopJob } from "../utils/cron";
-import { getMenu } from "../utils/getMenu";
+import { getMenu } from "./getMenu";
 
 export const stopSearchCallback: OnHearCallback = async (ctx) => {
   const userId = ctx.from.id;
