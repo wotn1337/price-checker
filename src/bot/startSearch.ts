@@ -2,9 +2,9 @@ import { startJob } from "../cron/start";
 import { cronJobs } from "../cron/state";
 import { getUserTask } from "../db/getData";
 import { updateTask } from "../db/updateData";
-import { getMessageFromFile } from "../parsers/message";
 import { OnHearCallback } from "../types";
 import { getMenu } from "./getMenu";
+import { getMediaGroup } from "./media";
 
 export const startSearchCallback: OnHearCallback = async (ctx) => {
   const userId = ctx.from.id;
@@ -23,9 +23,8 @@ export const startSearchCallback: OnHearCallback = async (ctx) => {
   }
 
   const searchTask = async () => {
-    const message = getMessageFromFile();
     try {
-      await ctx.reply(message);
+      await ctx.replyWithMediaGroup(getMediaGroup());
       console.log("Сообщение отправлено пользователю", userId);
     } catch (e) {
       console.error("Ошибка отправки сообщения пользователю", userId, e);

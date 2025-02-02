@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import { Telegraf, session } from "telegraf";
+import { getMediaGroup } from "./bot/media";
 import { startBotCallback } from "./bot/start";
 import { startSearchCallback } from "./bot/startSearch";
 import { stopSearchCallback } from "./bot/stopSearch";
@@ -7,7 +8,6 @@ import { Option } from "./const";
 import { startJob } from "./cron/start";
 import { cronJobs } from "./cron/state";
 import { getStartedTasks } from "./db/getData";
-import { getMessageFromFile } from "./parsers/message";
 import { startParserJob } from "./parsers/parserJob";
 import { IContext } from "./types";
 dotenv.config();
@@ -30,9 +30,8 @@ bot.launch(async () => {
 
   for (const task of tasks) {
     const searchTask = async () => {
-      const message = getMessageFromFile();
       try {
-        await bot.telegram.sendMessage(task.user_id, message);
+        await bot.telegram.sendMediaGroup(task.user_id, getMediaGroup());
         console.log("Сообщение отправлено пользователю", task.user_id);
       } catch (e) {
         console.error(
@@ -47,5 +46,5 @@ bot.launch(async () => {
     cronJobs[task.user_id] = job;
   }
 
-  console.log("Задачи запущены", cronJobs);
+  console.log("Задачи запущены для пользователей:", Object.keys(cronJobs));
 });
