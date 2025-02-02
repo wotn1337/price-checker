@@ -11,7 +11,7 @@ export async function makeScreenshots() {
   for (const shop of shops) {
     try {
       console.log(`${shop.name} - делаю скриншот`);
-      makePageScreenshot(shop.url, shop.key).then(() => {
+      await makePageScreenshot(shop.url, shop.key).then(() => {
         console.log(`${shop.name} - скриншот готов`);
       });
     } catch (e) {

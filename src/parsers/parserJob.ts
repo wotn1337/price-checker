@@ -5,9 +5,9 @@ import { makeScreenshots } from "./screenshots";
 dotenv.config();
 
 export async function startParserJob() {
-  const task = () => {
-    writeMessageInFile();
-    makeScreenshots();
+  const task = async () => {
+    await writeMessageInFile();
+    await makeScreenshots();
   };
 
   const job = startJob(task, process.env.PARSER_TIMING);
