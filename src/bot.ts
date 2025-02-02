@@ -23,19 +23,29 @@ bot.hears(Option.STOP_SEARCH, stopSearchCallback);
 
 startParserJob();
 
-bot.launch();
-console.log("Бот запущен");
+bot.launch(async () => {
+  console.log("Бот запущен");
 
-const tasks = await getStartedTasks();
+  const tasks = await getStartedTasks();
 
-for (const task of tasks) {
-  const searchTask = () => {
-    const message = getMessageFromFile();
-    bot.telegram.sendMessage(task.user_id, message);
-  };
+  for (const task of tasks) {
+    const searchTask = async () => {
+      const message = getMessageFromFile();
+      try {
+        await bot.telegram.sendMessage(task.user_id, message);
+        console.log("Сообщение отправлено пользователю", task.user_id);
+      } catch (e) {
+        console.error(
+          "Ошибка отправки сообщения пользователю",
+          task.user_id,
+          e
+        );
+      }
+    };
 
-  const job = startJob(searchTask, process.env.TIMING);
-  cronJobs[task.user_id] = job;
-}
+    const job = startJob(searchTask, process.env.TIMING);
+    cronJobs[task.user_id] = job;
+  }
 
-console.log("Задачи запущены", cronJobs);
+  console.log("Задачи запущены", cronJobs);
+});

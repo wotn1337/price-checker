@@ -17,9 +17,14 @@ export const startBotCallback: OnStartCallback = async (ctx) => {
   }
 
   if (task.is_active) {
-    const searchTask = () => {
+    const searchTask = async () => {
       const message = getMessageFromFile();
-      ctx.reply(message);
+      try {
+        await ctx.reply(message);
+        console.log("Сообщение отправлено пользователю", userId);
+      } catch (e) {
+        console.error("Ошибка отправки сообщения пользователю", userId, e);
+      }
     };
 
     const job = startJob(searchTask, process.env.TIMING);
