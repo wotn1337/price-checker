@@ -9,6 +9,7 @@ import { startJob } from "./cron/start";
 import { cronJobs } from "./cron/state";
 import { getStartedTasks } from "./db/getData";
 import { startParserJob } from "./parsers/parserJob";
+import { startSamokatJob } from "./parsers/samokat";
 import { IContext } from "./types";
 dotenv.config();
 
@@ -45,6 +46,10 @@ bot.launch(async () => {
     const job = startJob(searchTask, process.env.TIMING);
     cronJobs[task.user_id] = job;
   }
+  startSamokatJob(
+    bot,
+    tasks.map((task) => task.user_id)
+  );
 
   console.log("Задачи запущены для пользователей:", Object.keys(cronJobs));
 });
