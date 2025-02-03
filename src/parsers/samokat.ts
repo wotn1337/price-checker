@@ -53,7 +53,7 @@ export async function searchSamokat() {
     const context = await browser.newContext(config.use);
     const page = await context.newPage();
 
-    await page.goto(url, { waitUntil: "networkidle" });
+    await page.goto(url, { waitUntil: "networkidle", timeout: 120000 });
     await page.waitForTimeout(10000);
     await page.keyboard.press("Enter");
     const hasRiver = await page.getByText(/река/i).isVisible();
