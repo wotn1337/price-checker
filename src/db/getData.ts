@@ -1,4 +1,5 @@
 import { TABLE_NAME } from "../const";
+import { logger } from "../logger";
 import { UserTask } from "../types";
 import { db } from "./db";
 
@@ -8,10 +9,10 @@ export const getUserTask = async (user_id: UserTask["user_id"]) => {
       .where({ user_id })
       .returning("*")
       .first();
-    console.log("Задачи пользователя:", task);
+    logger.info(task, "Задачи пользователя");
     return task;
   } catch (err) {
-    console.error("Ошибка получения данных:", err);
+    logger.error(err, "Ошибка получения данных:");
   }
 };
 
@@ -21,10 +22,10 @@ export const getStartedTasks = async () => {
       .where({ is_active: true })
       .returning("*");
 
-    console.log("Все начатые задачи:", task);
+    logger.info(task, "Все начатые задачи");
     return task;
   } catch (err) {
-    console.error("Ошибка получения начатых задач:", err);
+    logger.error(err, "Ошибка получения начатых задач");
     return [];
   }
 };

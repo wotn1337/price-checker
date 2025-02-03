@@ -1,4 +1,5 @@
 import { TABLE_NAME } from "../const";
+import { logger } from "../logger";
 import { UserTask, UserTaskDbOperation } from "../types";
 import { db } from "./db";
 
@@ -9,17 +10,17 @@ export const createTask = async (newTask: UserTaskDbOperation) => {
       .first();
 
     if (existingTask) {
-      console.log("Задача для этого пользователя уже существует.");
+      logger.info("Задача для этого пользователя уже существует.");
       return existingTask;
     } else {
       const [instance] = await db<UserTask, UserTaskDbOperation>(TABLE_NAME)
         .insert(newTask)
         .returning("*");
 
-      console.log("Данные добавлены");
+      logger.info("Данные добавлены");
       return instance;
     }
   } catch (err) {
-    console.error("Ошибка добавления данных:", err);
+    logger.error(err, "Ошибка добавления данных");
   }
 };

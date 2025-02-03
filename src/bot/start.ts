@@ -2,6 +2,7 @@ import { startJob } from "../cron/start";
 import { cronJobs } from "../cron/state";
 import { getUserTask } from "../db/getData";
 import { createTask } from "../db/insertData";
+import { logger } from "../logger";
 import { OnStartCallback } from "../types";
 import { getMenu } from "./getMenu";
 import { getMediaGroup } from "./media";
@@ -20,9 +21,9 @@ export const startBotCallback: OnStartCallback = async (ctx) => {
     const searchTask = async () => {
       try {
         await ctx.replyWithMediaGroup(getMediaGroup());
-        console.log("Сообщение отправлено пользователю", userId);
-      } catch (e) {
-        console.error("Ошибка отправки сообщения пользователю", userId, e);
+        logger.info(userId, "Сообщение отправлено пользователю");
+      } catch (err) {
+        logger.error({ userId, err }, "Ошибка отправки сообщения пользователю");
       }
     };
 

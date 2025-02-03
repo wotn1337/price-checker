@@ -1,11 +1,12 @@
 import { chromium } from "playwright";
+import { logger } from "../logger";
 
 const url =
   "https://www.lamoda.ru/p/vi055lwtxp96/beauty_accs-vichy-syvorotka-dlya-volos/";
 
 export async function getLamodaPrice() {
   try {
-    console.log("Начинаю поиск цены на Lamoda");
+    logger.info("Начинаю поиск цены на Lamoda");
     const browser = await chromium.launch({ headless: true });
     const context = await browser.newContext({
       userAgent:
@@ -24,11 +25,11 @@ export async function getLamodaPrice() {
     );
     await browser.close();
 
-    console.log(`Цена на Lamoda найдена - ${textContent}`);
+    logger.info(`Цена на Lamoda найдена - ${textContent}`);
 
     return textContent;
   } catch (e) {
-    console.error(e);
+    logger.error(e);
     return url;
   }
 }

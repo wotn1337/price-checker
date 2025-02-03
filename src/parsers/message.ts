@@ -2,6 +2,7 @@ import fs from "fs";
 import { writeFile } from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
+import { logger } from "../logger";
 import { getGoldApplePrice } from "./goldApple";
 import { getLamodaPrice } from "./lamoda";
 import { getWbPrice } from "./wildberries";
@@ -46,19 +47,19 @@ export async function writeMessageInFile() {
   try {
     const message = await createMessage();
     await writeFile(filePath, message, "utf8");
-    console.log(`Сообщение успешно записано в файл: ${filePath}`);
+    logger.info(`Сообщение успешно записано в файл: ${filePath}`);
   } catch (error) {
-    console.error(`Ошибка при записи в файл: ${error}`);
+    logger.error(error, "Ошибка при записи в файл");
   }
 }
 
 export function getMessageFromFile() {
   try {
     const message = fs.readFileSync(filePath, "utf8");
-    console.log("Сообщение:", message);
+    logger.info(message, "Сообщение");
     return message;
-  } catch (e) {
-    console.error("Ошибка при чтении файла:", e);
+  } catch (err) {
+    logger.error(err, "Ошибка при чтении файла");
     return "Ошибка чтения сообщения";
   }
 }

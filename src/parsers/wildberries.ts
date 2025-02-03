@@ -1,11 +1,12 @@
 import { chromium } from "playwright";
+import { logger } from "../logger";
 
 const url =
   "https://www.wildberries.ru/catalog/3518597/detail.aspx?targetUrl=MS&size=13525664";
 
 export async function getWbPrice() {
   try {
-    console.log("Начинаю поиск цены на Wildberries");
+    logger.info("Начинаю поиск цены на Wildberries");
     const browser = await chromium.launch({ headless: true });
     const context = await browser.newContext({
       userAgent:
@@ -24,11 +25,11 @@ export async function getWbPrice() {
     );
     await browser.close();
 
-    console.log(`Цена на Wildberries найдена - ${textContent}`);
+    logger.info(`Цена на Wildberries найдена - ${textContent}`);
 
     return textContent;
   } catch (e) {
-    console.error(e);
+    logger.error(e);
     return url;
   }
 }

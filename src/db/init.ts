@@ -1,4 +1,5 @@
 import { TABLE_NAME } from "../const";
+import { logger } from "../logger";
 import { db } from "./db";
 
 const createTable = async () => {
@@ -13,12 +14,12 @@ const createTable = async () => {
         table.boolean("is_active").defaultTo(false); // Флаг активности задачи
         table.timestamp("created_at").defaultTo(db.fn.now()); // Временная метка создания
       });
-      console.log("Таблица создана");
+      logger.info("Таблица создана");
     } else {
-      console.log("Таблица уже существует");
+      logger.info("Таблица уже существует");
     }
   } catch (err) {
-    console.error("Ошибка создания таблицы:", err);
+    logger.error(err, "Ошибка создания таблицы");
   } finally {
     await db.destroy();
   }

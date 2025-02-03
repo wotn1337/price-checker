@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import { startJob } from "../cron/start";
+import { logger } from "../logger";
 import { writeMessageInFile } from "./message";
 import { makeScreenshots } from "./screenshots";
 dotenv.config();
@@ -11,6 +12,6 @@ export async function startParserJob() {
   };
 
   const job = startJob(task, process.env.PARSER_TIMING);
-  console.log("Задача парсинга запущена");
+  logger.info("Задача парсинга запущена");
   return job;
 }

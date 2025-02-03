@@ -8,8 +8,8 @@ import { Option } from "./const";
 import { startJob } from "./cron/start";
 import { cronJobs } from "./cron/state";
 import { getStartedTasks } from "./db/getData";
+import { logger } from "./logger";
 import { startParserJob } from "./parsers/parserJob";
-import { startSamokatJob } from "./parsers/samokat";
 import { IContext } from "./types";
 dotenv.config();
 
@@ -25,7 +25,7 @@ bot.hears(Option.STOP_SEARCH, stopSearchCallback);
 startParserJob();
 
 bot.launch(async () => {
-  console.log("Бот запущен");
+  logger.info("Бот запущен");
 
   const tasks = await getStartedTasks();
 
@@ -33,23 +33,15 @@ bot.launch(async () => {
     const searchTask = async () => {
       try {
         await bot.telegram.sendMediaGroup(task.user_id, getMediaGroup());
-        console.log("Сообщение отправлено пользователю", task.user_id);
-      } catch (e) {
-        console.error(
-          "Ошибка отправки сообщения пользователю",
-          task.user_id,
-          e
-        );
+        logger.info(task.user_id, "Сообщение отправлено пользователю");
+      } catch (err) {
+        logger.error({ err, task }, "Ошибка отправки сообщения пользователю");
       }
     };
 
     const job = startJob(searchTask, process.env.TIMING);
     cronJobs[task.user_id] = job;
   }
-  startSamokatJob(
-    bot,
-    tasks.map((task) => task.user_id)
-  );
 
-  console.log("Задачи запущены для пользователей:", Object.keys(cronJobs));
+  logger.info(Object.keys(cronJobs), "Задачи запущены для пользователей:");
 });

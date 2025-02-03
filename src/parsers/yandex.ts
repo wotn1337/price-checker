@@ -1,11 +1,12 @@
 import { chromium } from "playwright";
+import { logger } from "../logger";
 
 const url =
   "https://market.yandex.ru/product--dercos-aminexil-intensive-5-sredstvo-protiv-vypadeniia-volos-dlia-zhenshchin/1788741060?sku=32589352&uniqueId=892410&do-waremd5=Qn_pI_7anzbnYlJsghBcig&nid=17437097";
 
 export async function getYandexPrice() {
   try {
-    console.log("Начинаю поиск цены на Яндекс");
+    logger.info("Начинаю поиск цены на Яндекс");
     const browser = await chromium.launch({ headless: true });
     const context = await browser.newContext({
       userAgent:
@@ -24,11 +25,11 @@ export async function getYandexPrice() {
     );
     await browser.close();
 
-    console.log(`Цена на Яндекс найдена - ${textContent}`);
+    logger.info(`Цена на Яндекс найдена - ${textContent}`);
 
     return textContent;
   } catch (e) {
-    console.error(e);
+    logger.error(e);
     return url;
   }
 }

@@ -1,10 +1,11 @@
 import { chromium } from "playwright";
+import { logger } from "../logger";
 
 const url = "https://goldapple.ru/89310800015-dercos-aminexil-intensive-5";
 
 export async function getGoldApplePrice() {
   try {
-    console.log("Начинаю поиск цены в Золотом яблоке");
+    logger.info("Начинаю поиск цены в Золотом яблоке");
     const browser = await chromium.launch({ headless: true });
     const context = await browser.newContext();
     const page = await context.newPage();
@@ -16,11 +17,11 @@ export async function getGoldApplePrice() {
     );
     await browser.close();
 
-    console.log(`Цена в Золотом яблоке найдена - ${textContent}`);
+    logger.info(`Цена в Золотом яблоке найдена - ${textContent}`);
 
     return textContent;
   } catch (e) {
-    console.error(e);
+    logger.error(e);
     return url;
   }
 }

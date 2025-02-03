@@ -2,6 +2,7 @@ import { startJob } from "../cron/start";
 import { cronJobs } from "../cron/state";
 import { getUserTask } from "../db/getData";
 import { updateTask } from "../db/updateData";
+import { logger } from "../logger";
 import { OnHearCallback } from "../types";
 import { getMenu } from "./getMenu";
 import { getMediaGroup } from "./media";
@@ -12,7 +13,7 @@ export const startSearchCallback: OnHearCallback = async (ctx) => {
   let task = await getUserTask(userId);
 
   if (!task) {
-    console.log(userId);
+    logger.info(userId);
     ctx.reply("Ошибка запуска - запись в БД не найдена", getMenu(false));
     return;
   }
@@ -25,9 +26,9 @@ export const startSearchCallback: OnHearCallback = async (ctx) => {
   const searchTask = async () => {
     try {
       await ctx.replyWithMediaGroup(getMediaGroup());
-      console.log("Сообщение отправлено пользователю", userId);
-    } catch (e) {
-      console.error("Ошибка отправки сообщения пользователю", userId, e);
+      logger.info(userId, "Сообщение отправлено пользователю");
+    } catch (err) {
+      logger.error({ userId, err }, "Ошибка отправки сообщения пользователю");
     }
   };
 

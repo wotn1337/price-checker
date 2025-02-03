@@ -4,6 +4,7 @@ import { chromium } from "playwright";
 import { Telegraf } from "telegraf";
 import { fileURLToPath } from "url";
 import { startJob } from "../cron/start";
+import { logger } from "../logger";
 import config from "../playwright/playwright.config";
 import { IContext } from "../types";
 
@@ -34,21 +35,21 @@ export async function startSamokatJob(
           } else {
             await bot.telegram.sendMessage(id, "Река в самокате!!!");
           }
-        } catch (e) {
-          console.error("Ошибка уведомления о реке:", e);
+        } catch (err) {
+          logger.error(err, "Ошибка уведомления о реке");
         }
       }
     }
   };
 
   const job = startJob(task, "*/3 * * * *");
-  console.log("Задача парсинга самоката запущена");
+  logger.info("Задача парсинга самоката запущена");
   return job;
 }
 
 export async function searchSamokat() {
   try {
-    console.log("Начинаю поиск Реки в самокате");
+    logger.info("Начинаю поиск Реки в самокате");
     const browser = await chromium.launch();
     const context = await browser.newContext(config.use);
     const page = await context.newPage();
@@ -62,11 +63,11 @@ export async function searchSamokat() {
     }
 
     await browser.close();
-    console.log("Поиск по самокату:", hasRiver);
+    logger.info(hasRiver, "Поиск по самокату");
 
     return hasRiver;
   } catch (e) {
-    console.error(e);
+    logger.error(e);
     return false;
   }
 }

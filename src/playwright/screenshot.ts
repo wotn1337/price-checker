@@ -1,6 +1,7 @@
 import path from "path";
 import { chromium } from "playwright";
 import { fileURLToPath } from "url";
+import { logger } from "../logger";
 import config from "./playwright.config";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -20,7 +21,7 @@ export async function makePageScreenshot(url: string, fileName: string) {
     await page.goto(url, { waitUntil: "networkidle", timeout: 60000 });
     await page.waitForTimeout(20000);
     await page.screenshot({ path: filePath });
-  } catch (e) {
-    console.error("Ошибка скриншота", e);
+  } catch (err) {
+    logger.error(err, "Ошибка скриншота");
   }
 }
