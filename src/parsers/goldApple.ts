@@ -15,6 +15,8 @@ export async function getGoldApplePrice() {
       'meta[itemprop="price"]',
       (el) => el.getAttribute("content")
     );
+    await page.close();
+    await context.close();
     await browser.close();
 
     logger.info(`Цена в Золотом яблоке найдена - ${textContent}`);

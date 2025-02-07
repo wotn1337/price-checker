@@ -23,6 +23,8 @@ export async function getLamodaPrice() {
       'span[aria-label="Итоговая цена"]',
       (el) => el.textContent.replace(/[^0-9]/g, "")
     );
+    await page.close();
+    await context.close();
     await browser.close();
 
     logger.info(`Цена на Lamoda найдена - ${textContent}`);

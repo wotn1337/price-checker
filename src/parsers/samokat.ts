@@ -62,7 +62,10 @@ export async function searchSamokat() {
       await page.screenshot({ path: filePath });
     }
 
+    await page.close();
+    await context.close();
     await browser.close();
+
     logger.info(hasRiver, "Поиск по самокату");
 
     return hasRiver;

@@ -23,6 +23,8 @@ export async function getWbPrice() {
       ".price-block__final-price.wallet",
       (el) => el.textContent.replace(/[^0-9]/g, "")
     );
+    await page.close();
+    await context.close();
     await browser.close();
 
     logger.info(`Цена на Wildberries найдена - ${textContent}`);

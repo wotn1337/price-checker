@@ -23,6 +23,8 @@ export async function getYandexPrice() {
       'h3[data-auto="snippet-price-current"]',
       (el) => el.textContent.replace(/[^0-9]/g, "")
     );
+    await page.close();
+    await context.close();
     await browser.close();
 
     logger.info(`Цена на Яндекс найдена - ${textContent}`);
